@@ -17,7 +17,7 @@ CREATE TABLE szolgaltatok (
   id INT(50) PRIMARY KEY,
   szolgaltatas_tipusok_id INT(50) NOT NULL,
   nev CHAR(100) NOT NULL,
-  leiras CHAR(256),
+  leiras CHAR(255),
   aktiv BOOLEAN DEFAULT TRUE,
   FOREIGN KEY (szolgaltatas_tipusok_id) REFERENCES szolgaltatas_tipusok(id)
 );
@@ -27,7 +27,7 @@ Idopontok
 
 CREATE TABLE idopontok (
   id INT(50) PRIMARY KEY,
-  szolgaltatok_id INT(256) NOT NULL,
+  szolgaltatok_id INT(255) NOT NULL,
   datum DATE NOT NULL,
   ido TIME NOT NULL,
   foglalhato BOOLEAN DEFAULT TRUE,
