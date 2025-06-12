@@ -17,7 +17,7 @@ CREATE TABLE szolgaltatok (
   id INT(50) PRIMARY KEY,
   szolgaltatas_tipusok_id INT(50) NOT NULL,
   nev CHAR(100) NOT NULL,
-  leiras CHAR(255),
+  leiras CHAR(256),
   aktiv BOOLEAN DEFAULT TRUE,
   FOREIGN KEY (szolgaltatas_tipusok_id) REFERENCES szolgaltatas_tipusok(id)
 );
@@ -27,7 +27,7 @@ Idopontok
 
 CREATE TABLE idopontok (
   id INT(50) PRIMARY KEY,
-  szolgaltatok_id INT(255) NOT NULL,
+  szolgaltatok_id INT(256) NOT NULL,
   datum DATE NOT NULL,
   ido TIME NOT NULL,
   foglalhato BOOLEAN DEFAULT TRUE,
@@ -56,4 +56,14 @@ CREATE TABLE szolgaltatas_tipusok (
   leiras CHAR(100)
 );
 
+Ertekelesek
 
+CREATE TABLE ertekelesek (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    foglalasok_id INT NOT NULL,
+    ertekeles TINYINT NOT NULL CHECK (ertekeles BETWEEN 1 AND 5),
+    velemeny TEXT,
+    datum DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (foglalasok_id) REFERENCES foglalasok(id)
+        ON DELETE CASCADE
+);
