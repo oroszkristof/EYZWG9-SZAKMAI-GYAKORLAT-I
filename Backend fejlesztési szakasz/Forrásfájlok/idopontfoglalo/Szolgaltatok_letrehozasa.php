@@ -1,5 +1,20 @@
 <?php
 require_once "kapcsolat.php";
+session_start();
+
+if (!isset($_SESSION['szerepkor'])) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Bejelentkezés szükséges.']);
+    exit;
+}
+
+$engedelyezettSzerepkorok = ['admin'];
+
+if (!in_array($_SESSION['szerepkor'], $engedelyezettSzerepkorok)) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Nincs jogosultság.']);
+    exit;
+}
 
 header('Content-Type: application/json');
 
