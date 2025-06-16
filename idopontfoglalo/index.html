@@ -3,12 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="menü.css">
   <title>Időpontfoglaló</title>
-  
+  <link rel="stylesheet" href="menü.css">
+  <style>
+    .content {
+      text-align: center;
+      padding: 80px 20px;
+    }
+
+    .content h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+
+    .content p {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      color: #ccc;
+    }
+
+    .button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: blue;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      justify-content:center
+    }
+
+    .button:hover {
+      background-color: #0d1540;
+    }
+
+    .section {
+      margin-top: 60px;
+      color: white;
+    }
+
+    .section h2 {
+      color: #1a237e;
+    }
+
+    .section p {
+      color: #ccc;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+  </style>
 </head>
 <body>
-  <header>
+
+   <header>
     <a href="index.html" class="logo">Időpontfoglaló</a>
     <nav>
       <a href="szogaltatok.html">Szolgáltatók</a>
@@ -18,5 +69,20 @@
       
     </nav>
   </header>
+
+  <div class="content">
+    <h1>Üdvözölöm az Időpontfoglaló rendszerben!</h1>
+    <p>Ez az oldal lehetőséget biztosít különböző szolgáltatások egyszerű és gyors foglalására. <br><br> Válasszon szolgáltatót, tekintse meg az elérhető időpontokat és foglaljon egyetlen kattintással!</p>
+    <br><br>
+     <button class="button" onclick="window.location.href='bejelentkezes.html'">
+      Megtekintem a szabad időpontokat!
+    </button>
+
+    <h2>Miért érdemes regisztrálni?</h2>
+      <p>Regisztrált felhasználóként elérheti saját foglalásait, értékeléseket adhat le az igénybe vett szolgáltatásokról, és gyorsabban tud időpontot foglalni.</p>
+    </div>
+
+  
+
 </body>
 </html>
