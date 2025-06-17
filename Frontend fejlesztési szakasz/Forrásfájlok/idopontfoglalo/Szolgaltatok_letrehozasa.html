@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Szolgáltató létrehozása</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #007BFF;
+      text-decoration: none;
+    }
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    form {
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    form input, form select, form button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    form button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    form button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">Időpontfoglaló <span id="felhasznalo-nev"></span></a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="rolam.html"><b>RÓLAM</b></a>
+    </nav>
+  </header>
+
+  <h2 style="text-align: center;">Szolgáltató létrehozása</h2>
+  <form id="letrehozasForm">
+    <input type="text" name="nev" placeholder="Szolgáltató neve" required>
+    <input type="text" name="leiras" placeholder="Leírás" required>
+    <input type="number" name="szolgaltatas_tipusok_id" placeholder="Típus ID" required>
+    <select name="aktiv" required>
+      <option value="">-- Aktivitás kiválasztása --</option>
+      <option value="1">Aktív</option>
+      <option value="0">Inaktív</option>
+    </select>
+    <button type="submit">Létrehozás</button>
+  </form>
+
+  <script>
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    // Jogosultságellenőrzés
+    if (!user || user.szerepkor !== 'admin') {
+      alert("Bejelentkezés szükséges (csak adminoknak).");
+      window.location.href = "bejelentkezes.html";
+    }
+
+    // Felhasználó név megjelenítése
+    if (user && user.nev) {
+      const nevElem = document.getElementById('felhasznalo-nev');
+      if (nevElem) {
+        nevElem.textContent = ` - ${user.nev}`;
+      }
+    }
+
+    // Űrlap beküldés
+    const form = document.getElementById('letrehozasForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const response = await fetch('Szolgaltatok_letrehozasa.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        alert(result.status || result.error);
+        if (response.ok) {
+          window.location.href = "szolgaltatok.html";
+        }
+      } catch (err) {
+        alert("Hiba történt: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

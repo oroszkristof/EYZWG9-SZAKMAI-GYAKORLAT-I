@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Regisztráció</title>
+  <link rel="stylesheet" href="menü.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: black;
+    }
+
+    header {
+      background-color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #007BFF;
+      text-decoration: none;
+    }
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: 500;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 70px);
+    }
+
+    .form-box {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .form-box h2 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .form-box input, .form-box select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .form-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .form-box button:hover {
+      background-color: #0056b3;
+    }
+
+    .login-link {
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .login-link a {
+      color: #007BFF;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+   <header>
+     <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="bejelentkezes.html"><b>Bejelentkezés</b></a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="form-box">
+      <h2>Regisztráció</h2>
+      <form id="regForm">
+        <input type="text" name="nev" placeholder="Név" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="jelszo" placeholder="Jelszó" required />
+        <select name="szerepkor" required>
+          <option value="">-- Szerepkör választás --</option>
+          <option value="felhasznalo">Felhasználó</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit">Regisztráció</button>
+      </form>
+      <div class="login-link">
+        <p><a href="bejelentkezes.html">Van már fiókja? Jelentkezzen be itt!</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('regForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        nev: form.nev.value,
+        email: form.email.value,
+        jelszo: form.jelszo.value,
+        szerepkor: form.szerepkor.value
+      };
+
+      const response = await fetch('regisztracio.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert('Sikeres regisztráció! Most már bejelentkezhet!');
+        window.location.href = 'bejelentkezes.html';
+      } else {
+        alert(result.error || 'Hiba történt a regisztráció során.');
+      }
+    });
+  </script>
+
+</body>
+</html>

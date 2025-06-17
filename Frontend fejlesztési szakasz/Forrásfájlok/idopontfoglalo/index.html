@@ -55,18 +55,24 @@
       margin: 10px auto;
     }
 
+    .color {
+      color: red;
+    }
+
   </style>
 </head>
 <body>
 
    <header>
-    <a href="index.html" class="logo">Időpontfoglaló</a>
+     <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
     <nav>
-      <a href="szogaltatok.html">Szolgáltatók</a>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
       <a href="bejelentkezes.html"><b>Bejelentkezés</b></a>
-      
+      <a href="#" onclick="kijelentkezes()"><span class="color">Kijelentkezés</span></a>
     </nav>
   </header>
 
@@ -82,7 +88,20 @@
       <p>Regisztrált felhasználóként elérheti saját foglalásait, értékeléseket adhat le az igénybe vett szolgáltatásokról, és gyorsabban tud időpontot foglalni.</p>
     </div>
 
-  
+    <script>
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+    if (user && user.nev) {
+      const nevElem = document.getElementById('felhasznalo-nev');
+      nevElem.textContent = ` - ${user.nev}`;
+    }
+  </script>
+
+<script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
 
 </body>
 </html>
