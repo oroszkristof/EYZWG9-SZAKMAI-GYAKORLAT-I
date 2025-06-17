@@ -9,13 +9,25 @@
 </head>
 <body>
   <header>
-    <a href="index.html" class="logo">Időpontfoglaló</a>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
     <nav>
-      <a href="szogaltatok.html">Szolgáltatók</a>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
+      <a href="rolam.html"><b>RÓLAM</b></a>
       
     </nav>
   </header>
+
+    <script>
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+    if (user && user.nev) {
+      const nevElem = document.getElementById('felhasznalo-nev');
+      nevElem.textContent = ` - ${user.nev}`;
+    }
+  </script>
+
 </body>
 </html>
