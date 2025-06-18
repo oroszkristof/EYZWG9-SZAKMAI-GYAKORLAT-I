@@ -6,9 +6,9 @@
   <title>Időpontfoglaló</title>
   <link rel="stylesheet" href="menü.css">
   <style>
-    .content {
+       .content {
       text-align: center;
-      padding: 80px 20px;
+      padding: 100px 40px;
     }
 
     .content h1 {
@@ -19,7 +19,7 @@
 
 
     .content p {
-      max-width: 600px;
+      max-width: 1200px;
       margin: 0 auto 20px;
       color: #ccc;
     }
@@ -58,50 +58,66 @@
     .color {
       color: red;
     }
-
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
-
-   <header>
-     <a href="index.html" class="logo">
+  <header>
+    <a href="index.html" class="logo">
       Időpontfoglaló <span id="felhasznalo-nev"></span>
     </a>
     <nav>
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      <a href="bejelentkezes.html"><b>Bejelentkezés</b></a>
-      <a href="#" onclick="kijelentkezes()"><span class="color">Kijelentkezés</span></a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
     </nav>
   </header>
 
   <div class="content">
     <h1>Üdvözölöm az Időpontfoglaló rendszerben!</h1>
-    <p>Ez az oldal lehetőséget biztosít különböző szolgáltatások egyszerű és gyors foglalására. <br><br> Válasszon szolgáltatót, tekintse meg az elérhető időpontokat és foglaljon egyetlen kattintással!</p>
-    <br><br>
-     <button class="button" onclick="window.location.href='bejelentkezes.html'">
-      Megtekintem a szabad időpontokat!
+    <p>Ez az oldal lehetőséget biztosít különböző szolgáltatások egyszerű és gyors foglalására.<br>
+       Válasszon szolgáltatót, tekintse meg az elérhető időpontokat és foglaljon egyetlen kattintással!</p>
+    <button class="button" onclick="window.location.href='szolgaltatok.html'">
+      Megtekintem a szolgáltatásokat!
     </button>
 
     <h2>Miért érdemes regisztrálni?</h2>
-      <p>Regisztrált felhasználóként elérheti saját foglalásait, értékeléseket adhat le az igénybe vett szolgáltatásokról, és gyorsabban tud időpontot foglalni.</p>
-    </div>
+    <p>Regisztrált felhasználóként elérheti saját foglalásait, értékeléseket adhat le az igénybe vett
+       szolgáltatásokról, és gyorsabban tud időpontot foglalni.</p> <br>
+    <p><i>Ez az egyetemi projekt a <b>simpleSoft Kft.</b> szakmai támogatásával valósult meg!</i></p>
+  </div>
 
-    <script>
+  <script>
+    
     const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    
     if (user && user.nev) {
-      const nevElem = document.getElementById('felhasznalo-nev');
-      nevElem.textContent = ` - ${user.nev}`;
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
     }
+
   </script>
 
-<script>
-  function kijelentkezes() {
-    sessionStorage.removeItem('felhasznalo');
-    window.location.href = "index.html"; 
-  }
-</script>
-
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
+  </script>
 </body>
 </html>

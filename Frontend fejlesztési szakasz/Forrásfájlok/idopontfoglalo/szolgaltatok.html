@@ -32,22 +32,20 @@
       font-weight: 500;
       font-size: 16px;
     }
-    .admin-top-button {
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-    .admin-top-button button {
-      background-color: #666;
+
+    /* Új: zöld gomb stílus */
+    .zold-gomb {
+      background-color: #28a745;
       color: white;
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
     }
-    .admin-top-button button:hover {
-      background-color: #444;
+    .zold-gomb:hover {
+      background-color: #218838;
     }
+
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -98,6 +96,11 @@
     .admin-actions button:hover {
       background-color: #444;
     }
+    
+    .color {
+      color: red;
+    }
+     .hidden { display: none !important; }
   </style>
 </head>
 <body>
@@ -109,12 +112,18 @@
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      <a href="rolam.html"><b>RÓLAM</b></a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
     </nav>
   </header>
 
-  <div id="admin-letrehozas-gomb" class="admin-top-button" style="display:none;">
-    <button onclick="window.location.href='Szolgaltatok_letrehozasa.html'">Szolgáltató létrehozása</button>
+  
+  <div id="admin-letrehozas-gomb" style="display:none; text-align: right; padding: 20px;">
+    <button class="zold-gomb" onclick="window.location.href='Szolgaltatok_letrehozasa.html'">+ Új szolgáltató hozzáadása</button>
   </div>
 
   <div class="container" id="szolgaltatok-container">
@@ -131,7 +140,7 @@
     }
 
     if (user && user.szerepkor === 'admin') {
-      document.getElementById('admin-letrehozas-gomb').style.display = 'flex';
+      document.getElementById('admin-letrehozas-gomb').style.display = 'block';
     }
 
     fetch('Szolgaltatok_listazasa.php')
@@ -146,7 +155,7 @@
               <h3>${s.nev}</h3>
               <p><strong>Típus:</strong> ${s.tipus_nev}</p>
               <p>${s.leiras}</p>
-              <button onclick="window.location.href='idopontok.html?szid=${s.id}'">Szabad időpontok</button>
+              ${!user || user.szerepkor === 'admin' ? '' : `<button onclick="window.location.href='idopontok.html?szolgaltato_id=${s.id}'">Szabad időpontok</button>`}
             `;
 
             if (user && user.szerepkor === 'admin') {
@@ -166,6 +175,36 @@
       .catch(error => {
         console.error('Hiba a szolgáltatók betöltésekor:', error);
       });
+  </script>
+  <script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
+<script>
+    
+      
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
   </script>
 </body>
 </html>
