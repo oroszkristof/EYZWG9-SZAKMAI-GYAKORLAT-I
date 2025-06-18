@@ -57,16 +57,28 @@
     form button:hover {
       background-color: #0056b3;
     }
+    
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html" class="logo">Időpontfoglaló <span id="felhasznalo-nev"></span></a>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
     <nav>
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      <a href="rolam.html"><b>RÓLAM</b></a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
     </nav>
   </header>
 
@@ -84,23 +96,7 @@
   </form>
 
   <script>
-    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
-
-    // Jogosultságellenőrzés
-    if (!user || user.szerepkor !== 'admin') {
-      alert("Bejelentkezés szükséges (csak adminoknak).");
-      window.location.href = "bejelentkezes.html";
-    }
-
-    // Felhasználó név megjelenítése
-    if (user && user.nev) {
-      const nevElem = document.getElementById('felhasznalo-nev');
-      if (nevElem) {
-        nevElem.textContent = ` - ${user.nev}`;
-      }
-    }
-
-    // Űrlap beküldés
+ 
     const form = document.getElementById('letrehozasForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -120,6 +116,38 @@
         alert("Hiba történt: " + err.message);
       }
     });
+  </script>
+  <script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
+<script>
+    
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
   </script>
 </body>
 </html>

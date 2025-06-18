@@ -60,18 +60,32 @@
     .center {
         text-align: center;
     }
+    
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
-      <header>
-    <a href="index.html" class="logo">Időpontfoglaló <span id="felhasznalo-nev"></span></a>
+ 
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
     <nav>
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      <a href="rolam.html"><b>RÓLAM</b></a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
     </nav>
   </header>
+
   <h2 class="center">Szolgáltató módosítása</h2>
   <form id="modositForm">
     <input type="text" name="nev" placeholder="Szolgáltató neve" required><br>
@@ -85,13 +99,7 @@
   </form>
 
   <script>
-    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
-    if (!user || user.szerepkor !== 'admin') {
-      alert("Csak admin jogosultsággal elérhető!");
-      window.location.href = "bejelentkezes.html";
-    }
-
-    // URL-ből ID kinyerése
+     // URL-ből ID kinyerése
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     if (!id) {
@@ -131,6 +139,39 @@
       const result = await response.json();
       alert(result.status || result.error);
     });
+  </script>
+  <script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
+
+<script>
+    
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
   </script>
 </body>
 </html>

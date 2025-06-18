@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Szolgáltató törlése</title>
+  <link rel="stylesheet" href="menü.css">
+  <title>Időpontok törlése</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 0;
+      background-color: #f5f5f5;
       margin: 0;
+      padding: 0;
     }
     header {
       background-color: white;
@@ -29,45 +30,51 @@
       margin-left: 20px;
       text-decoration: none;
       color: #007BFF;
-    }
-    form {
-      max-width: 400px;
-      margin: 40px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    input, button {
-      width: 95%;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 4px;
+      font-weight: 500;
       font-size: 16px;
     }
-    button {
-      background-color: blue;
-      color: white;
-      border: none;
-      cursor: pointer;
+    .container {
+      max-width: 400px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       text-align: center;
     }
-    button:hover {
-      background-color: blue;
+    .container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
-    .color {
-        color: black;
-        text-align: center;
+    .container button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .container button:hover {
+      background-color: #0056b3;
+    }
+    h2 {
+      text-align: center;
+      color: black;
     }
     
-    .color2 {
+    .color {
       color: red;
     }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
-
   <header>
     <a href="index.html" class="logo">
       Időpontfoglaló <span id="felhasznalo-nev"></span>
@@ -85,55 +92,53 @@
     </nav>
   </header>
 
+<h2 >Időpont törlése</h2>
 
-<h2 class="color">Szolgáltató törlése</h2>
+  <div class="container">
+    
+    <input type="number" id="torles-id" placeholder="Időpontok ID" required />
+    <button id="btn-delete">Törlés</button>
+  </div>
 
-<form id="torlesForm">
-  
-  <input type="number" name="id" placeholder="Szolgáltató ID" required />
-  <button type="submit">Törlés</button>
-</form>
-
-<script>
-  const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
-
-  // Név kiírás
-  if (user && user.nev) {
-    const nevElem = document.getElementById('felhasznalo-nev');
-    if (nevElem) nevElem.textContent = ` - ${user.nev}`;
-  }
-
-  // Jogosultság ellenőrzés
-  if (!user || user.szerepkor !== 'admin') {
-    alert("Csak bejelentkezett admin használhatja ezt az oldalt.");
-    window.location.href = "bejelentkezes.html";
-  }
-
-  // Törlés művelet
-  const form = document.getElementById('torlesForm');
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const id = form.id.value;
-    if (!confirm(`Biztosan törölni szeretnéd a(z) ${id}-es azonosítójú szolgáltatót?`)) return;
-
-    const response = await fetch(`Szolgaltatok_torlese.php?id=${id}`, {
-      method: 'DELETE'
+  <script>
+   
+   document.getElementById('btn-delete').addEventListener('click', () => {
+      const id = document.getElementById('torles-id').value.trim();
+      if (!id) {
+        alert("Kérem, adja meg a törlendő ID-t.");
+        return;
+      }
+      if (!confirm(`Biztosan törölni szeretné a(z) ${id} ID-jű szolgáltatót?`)) {
+        return;
+      }
+      fetch(`Idopontok_torlese.php?id=${id}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status) {
+          alert("Törlés sikeres.");
+          window.location.href = "idopontok.html";
+        } else {
+          alert("Hiba: " + (data.error || "Ismeretlen hiba"));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Hiba történt a törlés során.");
+      });
     });
-
-    const result = await response.json();
-    alert(result.status || result.error);
-    if (response.ok) window.location.href = "szolgaltatok.html";
-  });
-</script>
-<script>
+  </script>
+  <script>
   function kijelentkezes() {
     sessionStorage.removeItem('felhasznalo');
     window.location.href = "index.html"; 
   }
 </script>
-<script>
+ <script>
     
-    
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
     
     if (user && user.nev) {
       
