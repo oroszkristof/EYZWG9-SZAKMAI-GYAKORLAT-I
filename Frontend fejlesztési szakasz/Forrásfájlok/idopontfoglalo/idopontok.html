@@ -102,7 +102,7 @@
 </head>
 
 <body>
-   <header>
+  <header>
     <a href="index.html" class="logo">
       Időpontfoglaló <span id="felhasznalo-nev"></span>
     </a>
@@ -110,7 +110,6 @@
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      
       <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
       <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
       <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
@@ -166,7 +165,6 @@
           throw new Error('Nem sikerült betölteni az időpontokat.');
         }
 
-        // 1) Rendezzük ABC szerint a szolgáltató neveket (és más mezőket, ha akarjuk)
         const rows = data.data.slice().sort((a, b) => {
           const cmp = a.szolgaltato_nev.localeCompare(b.szolgaltato_nev);
           if (cmp !== 0) return cmp;
@@ -174,7 +172,6 @@
           return a.ido.localeCompare(b.ido);
         });
 
-        // 2) Csoportosítás
         const grouped = {};
         rows.forEach(row => {
           const nev = row.szolgaltato_nev;
@@ -182,23 +179,24 @@
           grouped[nev].push(row);
         });
 
-        // 3) Csoportnevek ABC sorrendben:
         const nevek = Object.keys(grouped).sort((a, b) => a.localeCompare(b));
         const tbody = document.getElementById('idopontok-body');
 
         nevek.forEach(nev => {
-          // Csoport fejléc
           const hr = document.createElement('tr');
           hr.className = 'group-header';
           hr.innerHTML = `<td colspan="${bejelentkezve ? 5 : 4}">${nev}</td>`;
           tbody.appendChild(hr);
 
-          // Sorok
           grouped[nev].forEach(row => {
             const tr = document.createElement('tr');
             let muvelet = '';
             if (szerepkor === 'felhasznalo' && row.foglalhato == 1) {
-              muvelet = `<button class="foglalas-button" onclick="foglalas('${row.id}')">Foglalás</button>`;
+              muvelet = `
+                <button class="foglalas-button" onclick="foglalas('${row.id}')">
+                  Foglalás
+                </button>
+              `;
             } else if (szerepkor === 'admin') {
               muvelet = `
                 <button class="admin-button" onclick="modositas('${row.id}')">Módosítás</button>
@@ -223,7 +221,7 @@
       });
 
     function foglalas(id) {
-      window.location.href = `Idopontok_letrehozasa.html?id=${id}`;
+      window.location.href = `Foglalasok_letrehozasa.html?id=${id}`;
     }
     function modositas(id) {
       window.location.href = `Idopontok_modositasa.html?id=${id}`;
@@ -239,32 +237,15 @@
     }
   </script>
 
-   <script>
-    
+  <script>
     const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
-
-    
     if (user && user.nev) {
-      
       document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
-
       document.getElementById('nav-login').classList.add('hidden');
-
-      
       document.getElementById('nav-account').classList.remove('hidden');
       document.getElementById('nav-logout').classList.remove('hidden');
     }
-
   </script>
 
-  <script>
-    function kijelentkezes() {
-     
-      sessionStorage.removeItem('felhasznalo');
-      
-      window.location.href = "index.html";
-    }
-  </script>
 </body>
-
 </html>
