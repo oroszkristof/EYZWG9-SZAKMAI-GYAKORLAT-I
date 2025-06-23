@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="menü.css">
+  
   <title>Értékelés beküldése</title>
   <style>
     body {
@@ -104,6 +105,61 @@
       color: red;
     }
     .hidden { display: none !important; }
+    @media (max-width: 768px) {
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  nav a {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .container label,
+  .container input,
+  .container select,
+  .container textarea,
+  .container button {
+    font-size: 15px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .container label,
+  .container input,
+  .container select,
+  .container textarea,
+  .container button {
+    font-size: 14px;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -213,5 +269,6 @@
       document.getElementById('nav-logout').classList.remove('hidden');
     }
   </script>
+  
 </body>
 </html>

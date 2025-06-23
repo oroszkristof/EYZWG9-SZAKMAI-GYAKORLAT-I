@@ -1,32 +1,31 @@
+/* Alapértelmezett menü elrendezés */
+nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: black;
-    }
 
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+nav a {
+  margin-left: 20px;
+  white-space: nowrap;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
+@media (max-width: 768px) {
+  nav {
+    display: flex;
+    flex-wrap: wrap;            
+    justify-content: space-between;
+    padding: 10px 0;
+    text-align: center;
+  }
 
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: 500;
-      font-size: 16px;
-    }
-
-    
+  nav a {
+    flex: 1 1 45%;              
+    margin: 5px 0;              
+    text-align: right;
+    padding: 8px 0;
+    font-size: 14px;
+    white-space: nowrap;         
+  }
+}

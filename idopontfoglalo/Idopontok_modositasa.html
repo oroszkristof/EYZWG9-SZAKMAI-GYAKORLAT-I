@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="menü.css">
+  
   <title>Időpont módosítása</title>
   <style>
     body {
@@ -57,6 +58,52 @@
       color: red;
     }
     .hidden { display: none !important; }
+    @media (max-width: 768px) {
+
+  .container {
+    width: 90%;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  input, select {
+    font-size: 15px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+ 
+  h2 {
+    font-size: 20px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input, select {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -223,5 +270,6 @@
       window.location.href = "index.html";
     }
   </script>
+  
 </body>
 </html>

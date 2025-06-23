@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Szolgáltató létrehozása</title>
+  
+  <link rel="stylesheet" href="menü.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,27 +13,7 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: 500;
-      font-size: 16px;
-    }
+    
     form {
       max-width: 400px;
       margin: 40px auto;
@@ -62,6 +44,22 @@
       color: red;
     }
     .hidden { display: none !important; }
+    @media (max-width: 500px) {
+      form {
+        margin: 20px 10px;
+        padding: 15px;
+      }
+
+      form input, form select, form button {
+        font-size: 15px;
+        padding: 9px;
+      }
+
+      h2 {
+        font-size: 20px;
+        padding: 0 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -149,5 +147,6 @@
       window.location.href = "index.html";
     }
   </script>
+  
 </body>
 </html>

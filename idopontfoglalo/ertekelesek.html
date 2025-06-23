@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="menü.css">
+  
   <title>Értékelések listája</title>
   <style>
     body {
@@ -12,27 +13,7 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: 500;
-      font-size: 16px;
-    }
+    
     table {
       width: 90%;
       margin: 30px auto;
@@ -130,6 +111,68 @@
       margin-left: 15px;
       font-weight: bold;
     }
+    @media (max-width: 768px) {
+  
+
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+    word-break: break-word;
+  }
+
+  .container,
+  #ertekeles-form-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .admin-button,
+  .zold-gomb {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  #ertekeles-form input,
+  #ertekeles-form select,
+  #ertekeles-form textarea {
+    font-size: 14px;
+    width: 100%;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 13px;
+  }
+  .admin-button,
+  .zold-gomb {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  #ertekeles-form-container {
+    padding: 16px;
+  }
+
+  #ertekeles-form label {
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
+
   </style>
 </head>
 <body>

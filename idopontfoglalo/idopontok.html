@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="menü.css">
+  
   <title>Időpontok listázása</title>
   <style>
     body {
@@ -13,27 +14,7 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: 500;
-      font-size: 16px;
-    }
+    
     #idopont-hozzaadas {
       text-align: right;
       padding: 20px 5% 0 0;
@@ -98,6 +79,46 @@
       color: red;
     }
     .hidden { display: none !important; }
+    @media (max-width: 768px) {
+ 
+
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  #idopont-hozzaadas {
+    text-align: center;
+    padding-right: 0;
+  }
+
+  #idopont-hozzaadas button {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .group-header {
+    font-size: 16px;
+  }
+
+  button {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+   th, td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
+
   </style>
 </head>
 

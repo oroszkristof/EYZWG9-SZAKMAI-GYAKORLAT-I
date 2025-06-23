@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="menü.css">
+  
   <title>Időpontok törlése</title>
   <style>
     body {
@@ -12,27 +13,7 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-      font-weight: 500;
-      font-size: 16px;
-    }
+   
     .container {
       max-width: 400px;
       margin: 30px auto;
@@ -72,6 +53,42 @@
       color: red;
     }
     .hidden { display: none !important; }
+    @media (max-width: 768px) {
+  
+
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input, button {
+    font-size: 15px;
+  }
+
+  button {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 9px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -161,5 +178,6 @@
       window.location.href = "index.html";
     }
   </script>
+  
 </body>
 </html>

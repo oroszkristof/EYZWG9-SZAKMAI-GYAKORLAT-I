@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Időpontfoglaló</title>
   <link rel="stylesheet" href="menü.css">
+  
   <style>
     .content {
       text-align: center;
@@ -60,6 +61,44 @@
     }
 
      .hidden { display: none !important; }
+     /* Reszponzív menü és tartalom */
+@media (max-width: 768px) {
+
+
+  .content {
+    padding: 30px 20px;
+  }
+
+  .content h1 {
+    font-size: 28px;
+  }
+
+  .content p {
+    font-size: 15px;
+  }
+
+  .button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content h1 {
+    font-size: 22px;
+  }
+
+  .content p {
+    font-size: 14px;
+  }
+
+
+  .button {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -127,6 +166,7 @@
       window.location.href = "index.html";
     }
   </script>
+
 
 </body>
 </html>

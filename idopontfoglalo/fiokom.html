@@ -5,31 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Foglalásaim</title>
   <link rel="stylesheet" href="menü.css">
+  
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       margin: 0; padding: 0;
     }
-    header {
-      background: white;
-      padding: 15px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-size: 22px; font-weight: bold;
-      color: #007BFF; text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px; text-decoration: none;
-      color: #007BFF; font-weight: 500; font-size: 16px;
-    }
+   
     .hidden { display: none !important; }
     .container {
       width: 90%; max-width: 800px;
-      margin: 30px auto; background: white;
-      padding: 20px; border-radius: 8px;
+      margin: 30px auto; 
+      background: white;
+      padding: 20px; 
+      border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     h2 {
@@ -113,6 +103,69 @@
       margin: 40px auto 0 auto;
       border: 1px solid #dc3545;
     }
+    @media (max-width: 768px) {
+
+
+  .container {
+    width: 95%;
+    padding: 15px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  .action-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .modify-button,
+  .cancel-button,
+  .ertekeles-gomb,
+  .ertekeles-torles-gomb {
+    width: 100%;
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .admin-message {
+    padding: 20px;
+    font-size: 16px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+
+
+  h2 {
+    font-size: 20px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  .modify-button,
+  .cancel-button,
+  .ertekeles-gomb,
+  .ertekeles-torles-gomb {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .action-cell {
+    gap: 5px;
+  }
+
+  .admin-message {
+    font-size: 15px;
+    padding: 15px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -264,5 +317,6 @@
       location.href = "index.html";
     }
   </script>
+ 
 </body>
 </html>

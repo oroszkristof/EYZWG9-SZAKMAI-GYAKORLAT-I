@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Szolgáltató törlése</title>
+  
+  <link rel="stylesheet" href="menü.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,25 +13,7 @@
       padding: 0;
       margin: 0;
     }
-    header {
-      background-color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #007BFF;
-      text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #007BFF;
-    }
+   
     form {
       max-width: 400px;
       margin: 40px auto;
@@ -56,14 +40,16 @@
       background-color: blue;
     }
     .color {
-        color: black;
+        color:red;
         text-align: center;
     }
     
     .color2 {
-      color: red;
+      color: black;
+      text-align: center;
     }
     .hidden { display: none !important; }
+  
   </style>
 </head>
 <body>
@@ -86,7 +72,7 @@
   </header>
 
 
-<h2 class="color">Szolgáltató törlése</h2>
+<h2 class="color2">Szolgáltató törlése</h2>
 
 <form id="torlesForm">
   
@@ -114,7 +100,7 @@
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const id = form.id.value;
-    if (!confirm(`Biztosan törölni szeretnéd a(z) ${id}-es azonosítójú szolgáltatót?`)) return;
+    if (!confirm(`Biztosan törölni szeretné a(z) ${id}-es azonosítójú szolgáltatót?`)) return;
 
     const response = await fetch(`Szolgaltatok_torlese.php?id=${id}`, {
       method: 'DELETE'
@@ -156,5 +142,6 @@
       window.location.href = "index.html";
     }
   </script>
+  
 </body>
 </html>

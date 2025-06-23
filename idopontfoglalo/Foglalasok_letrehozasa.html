@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="menü.css">
   <title>Foglalás létrehozása</title>
   <style>
     body {
@@ -11,16 +12,7 @@
       margin: 0;
       padding: 0;
     }
-    header {
-      background: white;
-      padding: 15px 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo { font-size: 22px; font-weight: bold; color: #007BFF; text-decoration: none; }
-    nav a { margin-left: 20px; color: #007BFF; text-decoration: none; font-weight:500; }
+    
     .container {
       max-width: 500px;
       margin: 40px auto;
@@ -58,25 +50,97 @@
       border:none; border-radius:5px; 
       cursor:pointer;
     }
+    .color {
+      color: red;
+    }
     button:hover { 
       background-color:#218838; 
     }
+    @media (max-width: 768px) {
+
+  .container {
+    width: 90%;
+    padding: 20px;
+    margin: 30px auto;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  input, textarea {
+    font-size: 15px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+ 
+
+  h2 {
+    font-size: 20px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input, textarea {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+.hidden { display: none !important; }
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html" class="logo">Időpontfoglaló <span id="felhasznalo-nev"></span></a>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
     <nav>
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      <a href="#" onclick="kijelentkezes()">Kijelentkezés</a>
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
     </nav>
   </header>
 
+  <!-- Felhasználónév és navigáció inicializálása -->
+  <script>
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+    if (!user || !user.id) {
+      alert("Csak bejelentkezett felhasználó tud foglalni.");
+      window.location.href = "bejelentkezes.html";
+    }
+    // Név kiírása a headerben
+    if (user.nev) {
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+    }
+    // Navigáció állapotok
+    document.getElementById('nav-login').classList.add('hidden');
+    document.getElementById('nav-account').classList.remove('hidden');
+    document.getElementById('nav-logout').classList.remove('hidden');
+  </script>
+
   <h2>Foglalás megerősítése</h2>
   <div class="container">
-    
     <form id="foglalas-form">
       <label>Dátum:</label>
       <input type="text" id="datum" readonly />
@@ -92,15 +156,7 @@
   </div>
 
   <script>
-    // Bejelentkezett felhasználó ellenőrzése
-    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
-    if (!user || !user.id) {
-      alert("Csak bejelentkezett felhasználó tud foglalni.");
-      window.location.href = "bejelentkezes.html";
-    }
-    document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
-
-    // URL-ből idopont_id kinyerése
+    // URL paraméterek olvasása
     const params = new URLSearchParams(window.location.search);
     const idopontId = params.get('id');
     if (!idopontId) {
@@ -108,7 +164,7 @@
       window.location.href = "idopontok.html";
     }
 
-    // Betöltjük az időpont adatait (dátum, idő) a listából
+    // Időpont adatok betöltése
     fetch("idopontok_listazasa.php")
       .then(res => res.json())
       .then(data => {

@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="menü.css">
+  
   <title>Foglalás törlése</title>
   <style>
     body {
@@ -11,20 +12,7 @@
       background-color: #f9f9f9;
       margin: 0; padding: 0;
     }
-    header {
-      background: white;
-      padding: 15px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-size: 22px; font-weight: bold;
-      color: #007BFF; text-decoration: none;
-    }
-    nav a {
-      margin-left: 20px; text-decoration: none;
-      color: #007BFF; font-weight: 500; font-size: 16px;
-    }
+    
     .container {
       max-width: 500px;
       margin: 60px auto;
@@ -68,6 +56,46 @@
       text-align: center;
       color: black;
     }
+    @media (max-width: 768px) {
+
+
+  .container {
+    width: 90%;
+    padding: 20px;
+    margin: 40px auto;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  button {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -149,5 +177,6 @@
       location.href = "index.html";
     }
   </script>
+  
 </body>
 </html>
