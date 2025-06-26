@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Szolgáltató létrehozása</title>
-  
+
   <link rel="stylesheet" href="menu.css">
   <style>
     body {
@@ -13,16 +14,19 @@
       margin: 0;
       padding: 0;
     }
-    
+
     form {
       max-width: 400px;
       margin: 40px auto;
       padding: 20px;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    form input, form select, form button {
+
+    form input,
+    form select,
+    form button {
       width: 100%;
       margin: 10px 0;
       padding: 10px;
@@ -30,27 +34,36 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+
     form button {
       background-color: #007BFF;
       color: white;
       border: none;
       cursor: pointer;
     }
+
     form button:hover {
       background-color: #0056b3;
     }
-    
+
     .color {
       color: red;
     }
-    .hidden { display: none !important; }
+
+    .hidden {
+      display: none !important;
+    }
+    
+     
     @media (max-width: 500px) {
       form {
         margin: 20px 10px;
         padding: 15px;
       }
 
-      form input, form select, form button {
+      form input,
+      form select,
+      form button {
         font-size: 15px;
         padding: 9px;
       }
@@ -62,6 +75,7 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <a href="index.html" class="logo">
@@ -71,7 +85,7 @@
       <a href="szolgaltatok.html">Szolgáltatók</a>
       <a href="idopontok.html">Időpontok</a>
       <a href="ertekelesek.html">Értékelések</a>
-      
+
       <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
       <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
       <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
@@ -93,8 +107,48 @@
     <button type="submit">Létrehozás</button>
   </form>
 
+  <table class="styled-table center"  border="1" cellpadding="5" cellspacing="0" align="center">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>név</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Fogászat</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Szépségápolás</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Fitness</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Fodrászat</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Elektronika</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Egészségügy</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Autóápolás</td>
+      </tr>
+    </tbody>
+  </table>
+
+
   <script>
- 
+
     const form = document.getElementById('letrehozasForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -116,23 +170,23 @@
     });
   </script>
   <script>
-  function kijelentkezes() {
-    sessionStorage.removeItem('felhasznalo');
-    window.location.href = "index.html"; 
-  }
-</script>
-<script>
-    
+    function kijelentkezes() {
+      sessionStorage.removeItem('felhasznalo');
+      window.location.href = "index.html";
+    }
+  </script>
+  <script>
+
     const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
 
-    
+
     if (user && user.nev) {
-      
+
       document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
 
       document.getElementById('nav-login').classList.add('hidden');
 
-      
+
       document.getElementById('nav-account').classList.remove('hidden');
       document.getElementById('nav-logout').classList.remove('hidden');
     }
@@ -141,12 +195,13 @@
 
   <script>
     function kijelentkezes() {
-     
+
       sessionStorage.removeItem('felhasznalo');
-      
+
       window.location.href = "index.html";
     }
   </script>
-  
+
 </body>
+
 </html>

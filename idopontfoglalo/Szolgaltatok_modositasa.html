@@ -62,6 +62,7 @@
         padding: 0 10px;
       }
     }
+    
   </style>
 </head>
 <body>
@@ -95,8 +96,47 @@
     <button type="submit">Módosítás mentése</button>
   </form>
 
+   <table class="styled-table center"  border="1" cellpadding="5" cellspacing="0" align="center">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>név</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Fogászat</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Szépségápolás</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Fitness</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Fodrászat</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Elektronika</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Egészségügy</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Autóápolás</td>
+      </tr>
+    </tbody>
+  </table>
+
   <script>
-     // URL-ből ID kinyerése
+     
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     if (!id) {
@@ -104,7 +144,7 @@
       window.location.href = "szolgaltatok.html";
     }
 
-    // Űrlap feltöltése meglévő adatokkal
+
     fetch("Szolgaltatok_listazasa.php")
       .then(res => res.json())
       .then(data => {
@@ -121,7 +161,7 @@
         form.aktiv.value = szolg.aktiv;
       });
 
-    // PUT beküldés
+    
     const form = document.getElementById('modositForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
