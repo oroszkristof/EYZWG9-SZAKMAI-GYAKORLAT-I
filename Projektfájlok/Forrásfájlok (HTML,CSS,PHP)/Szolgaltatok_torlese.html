@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Szolgáltató törlése</title>
+  
+  <link rel="stylesheet" href="menu.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 0;
+      margin: 0;
+    }
+   
+    form {
+      max-width: 400px;
+      margin: 40px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 95%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background-color: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+    }
+    button:hover {
+      background-color: blue;
+    }
+    .color {
+        color:red;
+        text-align: center;
+    }
+    
+    .color2 {
+      color: black;
+      text-align: center;
+    }
+    .hidden { display: none !important; }
+  
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+
+<h2 class="color2">Szolgáltató törlése</h2>
+
+<form id="torlesForm">
+  
+  <input type="number" name="id" placeholder="Szolgáltató ID" required />
+  <button type="submit">Törlés</button>
+</form>
+
+<script>
+  const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+  
+  if (user && user.nev) {
+    const nevElem = document.getElementById('felhasznalo-nev');
+    if (nevElem) nevElem.textContent = ` - ${user.nev}`;
+  }
+
+
+  if (!user || user.szerepkor !== 'admin') {
+    alert("Csak bejelentkezett admin használhatja ezt az oldalt.");
+    window.location.href = "bejelentkezes.html";
+  }
+
+  
+  const form = document.getElementById('torlesForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = form.id.value;
+    if (!confirm(`Biztosan törölni szeretné a(z) ${id}-es azonosítójú szolgáltatót?`)) return;
+
+    const response = await fetch(`Szolgaltatok_torlese.php?id=${id}`, {
+      method: 'DELETE'
+    });
+
+    const result = await response.json();
+    alert(result.status || result.error);
+    if (response.ok) window.location.href = "szolgaltatok.html";
+  });
+</script>
+<script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
+<script>
+    
+    
+    
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
+  </script>
+  
+</body>
+</html>

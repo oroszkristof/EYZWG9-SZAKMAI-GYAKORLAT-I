@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Időpontfoglaló</title>
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="hatter.css">
+ 
+  <style>
+       .content {
+      text-align: center;
+      padding: 60px 40px;
+    }
+
+    .content h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+
+    .content p {
+      max-width: 1200px;
+      margin: 0 auto 20px;
+      color: #ccc;
+    }
+
+    .button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: blue;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      justify-content:center
+    }
+
+    .button:hover {
+      background-color: #0d1540;
+    }
+
+    .section {
+      margin-top: 60px;
+      color: white;
+    }
+
+    .section h2 {
+      color: #1a237e;
+    }
+
+    .section p {
+      color: #ccc;
+      max-width: 800px;
+      margin: 10px auto;
+    }
+
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+<header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <h1>Üdvözölöm az Időpontfoglaló rendszerben!</h1>
+    <p>Ez az oldal lehetőséget biztosít különböző szolgáltatások egyszerű és gyors foglalására.<br>
+       Válasszon szolgáltatót, tekintse meg az elérhető időpontokat és foglaljon egyetlen kattintással!</p> <br>
+    <button class="button" onclick="window.location.href='szolgaltatok.html'">
+      Megtekintem a szolgáltatásokat!
+    </button>
+
+    <h2>Miért érdemes regisztrálni?</h2>
+    <p>Regisztrált felhasználóként elérheti saját foglalásait, értékeléseket adhat le az igénybe vett
+       szolgáltatásokról, és gyorsabban tud időpontot foglalni.</p> <br>
+    <p><i>Ez az egyetemi projekt a <b>simpleSoft Kft.</b> szakmai támogatásával valósult meg!</i></p>
+  <br>
+<p>
+    <i>A projekthez tartozó felhasználói kézikönyv és a hozzá tartozó dokumentációk az alábbi linken tekinthetőek meg!</i> <br>
+  <a href="#" style="color: blue;">Megtekintem a felhasználói kézikönyvet!</a>
+</p>
+  
+</div>
+
+
+  <script>
+    
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>

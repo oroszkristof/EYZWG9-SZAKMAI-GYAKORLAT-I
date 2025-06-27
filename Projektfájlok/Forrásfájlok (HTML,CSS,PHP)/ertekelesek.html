@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="menu.css">
+  
+  <title>Értékelések listája</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    
+    table {
+      width: 90%;
+      margin: 30px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+    td:first-child, th:first-child {
+      text-align: left;
+    }
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+    .admin-button {
+      background-color: #6c757d;
+      margin-right: 5px;
+      padding: 6px 18px;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .admin-button:hover {
+      background-color: #5a6268;
+    }
+    .zold-gomb {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .zold-gomb:hover {
+      background-color: #218838;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin: 20px 0;
+    }
+    #loading {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
+    #ertekeles-form-container {
+      margin: 40px auto 0;
+      max-width: 600px;
+      background: #fff;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px #0001;
+      display: none;
+    }
+    #ertekeles-form label {
+      font-weight: bold;
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+    }
+    #ertekeles-form textarea {
+      width: 100%;
+      min-height: 60px;
+      font-size: 15px;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+    }
+    #ertekeles-form select, #ertekeles-form input[type="number"] {
+      font-size: 15px;
+      padding: 4px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
+      margin-left: 7px;
+    }
+    #ertekeles-form button[type="submit"] {
+      margin-top: 15px;
+      padding: 8px 22px;
+    }
+    #ertekeles-valasz {
+      margin-left: 15px;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+  
+
+  table {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 8px;
+    word-break: break-word;
+  }
+
+  .container,
+  #ertekeles-form-container {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .admin-button,
+  .zold-gomb {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  #ertekeles-form input,
+  #ertekeles-form select,
+  #ertekeles-form textarea {
+    font-size: 14px;
+    width: 100%;
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 13px;
+  }
+  .admin-button,
+  .zold-gomb {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  #ertekeles-form-container {
+    padding: 16px;
+  }
+
+  #ertekeles-form label {
+    font-size: 14px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+  <div id="loading">Betöltés…</div>
+  <div class="error" id="error" style="display:none;"></div>
+
+  <table id="ertekelesek-table" style="display:none;">
+    <thead>
+      <tr id="ertekelesek-fejlec">
+        <th>Felhasználó</th>
+        <th>Szolgáltató</th>
+        <th>Értékelés</th>
+        <th>Vélemény</th>
+        <th>Dátum</th>
+        <th id="ertekeles-gomb-fejlec" style="display:none;">Művelet</th>
+      </tr>
+    </thead>
+    <tbody id="ertekelesek-body">
+    </tbody>
+  </table>
+
+  <div id="ertekeles-form-container">
+    <h3>Új értékelés írása</h3>
+    <form id="ertekeles-form">
+      <label>Foglalás azonosítója:
+        <input type="number" name="foglalas_id" id="foglalas_id" required min="1" style="width:90px;">
+      </label>
+      <label>Értékelés (1-5):
+        <select name="ertekeles" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </label>
+      <label>Vélemény (opcionális):
+        <textarea name="velemeny" rows="3"></textarea>
+      </label>
+      <button type="submit" class="zold-gomb">Értékelés beküldése</button>
+      <span id="ertekeles-valasz"></span>
+    </form>
+  </div>
+
+  <script>
+  const felhasznalo = JSON.parse(sessionStorage.getItem('felhasznalo'));
+  const szerepkor = felhasznalo?.szerepkor || felhasznalo?.szerep || null;
+  const isFelhasznalo = szerepkor === 'felhasznalo';
+  const isAdmin = szerepkor === 'admin';
+
+  if (felhasznalo?.nev) {
+    document.getElementById('felhasznalo-nev').textContent = ` - ${felhasznalo.nev}`;
+    document.getElementById('nav-login').classList.add('hidden');
+    document.getElementById('nav-account').classList.remove('hidden');
+    document.getElementById('nav-logout').classList.remove('hidden');
+  }
+
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html";
+  }
+
+  if (isAdmin) {
+    document.getElementById('ertekeles-gomb-fejlec').style.display = '';
+  }
+
+  fetch('Ertekelesek_listazasa.php')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('loading').style.display = 'none';
+
+      if (data.error) throw new Error(data.error);
+      if (!Array.isArray(data.data)) throw new Error('Váratlan szerverválasz!');
+      if (data.count === 0) {
+        document.getElementById('error').textContent = 'Nincs még értékelés.';
+        document.getElementById('error').style.display = '';
+        return;
+      }
+
+      const tbody = document.getElementById('ertekelesek-body');
+      data.data.forEach(e => {
+        const tr = document.createElement('tr');
+        let muveletCell = '';
+        if (isAdmin) {
+          muveletCell = `
+            <td>
+              <button class="admin-button" onclick="torles(${e.id}, this)">
+                Értékelés törlése
+              </button>
+            </td>
+          `;
+        }
+        tr.innerHTML = `
+          <td>${e.felhasznalo_nev}</td>
+          <td>${e.szolgaltato_nev}</td>
+          <td>${e.ertekeles} / 5</td>
+          <td>${e.velemeny ? e.velemeny : ''}</td>
+          <td>${e.datum ? (new Date(e.datum)).toLocaleDateString('hu-HU') : ''}</td>
+          ${isAdmin ? muveletCell : ''}
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('ertekelesek-table').style.display = '';
+    })
+    .catch(err => {
+      document.getElementById('loading').style.display = 'none';
+      const errDiv = document.getElementById('error');
+      errDiv.textContent = 'Hiba: ' + err.message;
+      errDiv.style.display = '';
+    });
+
+  function torles(ertekelesId, btn) {
+    if (!confirm('Biztosan törlöd ezt az értékelést?')) return;
+    window.location.href = `Ertekelesek_torlese.html?id=${ertekelesId}`;
+  }
+
+  if (isFelhasznalo) {
+    document.getElementById('ertekeles-form-container').style.display = 'block';
+  } else {
+    document.getElementById('ertekeles-form-container').style.display = 'none';
+  }
+
+  document.getElementById('ertekeles-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const foglalas_id = this.foglalas_id.value;
+    const ertekeles = this.ertekeles.value;
+    const velemeny = this.velemeny.value;
+    const valaszElem = document.getElementById('ertekeles-valasz');
+    valaszElem.style.color = 'black';
+    valaszElem.textContent = "Küldés...";
+
+    fetch('Ertekelesek_letrehozasa.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        foglalas_id: foglalas_id,
+        ertekeles: ertekeles,
+        velemeny: velemeny
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status) {
+        valaszElem.style.color = 'green';
+        valaszElem.textContent = "Sikeres értékelés!";
+        this.reset();
+      } else {
+        valaszElem.style.color = 'red';
+        valaszElem.textContent = data.error || "Hiba történt!";
+      }
+    })
+    .catch(err => {
+      valaszElem.style.color = 'red';
+      valaszElem.textContent = "Hiba történt!";
+    });
+  });
+  </script>
+
+</body>
+</html>

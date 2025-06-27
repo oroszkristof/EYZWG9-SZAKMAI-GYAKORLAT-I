@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="menu.css">
+  
+  <title>Foglalás törlése</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0; padding: 0;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 60px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #dc3545;
+      margin-bottom: 20px;
+    }
+    p {
+      margin-bottom: 30px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .delete-btn {
+      background-color: blue;
+      color: white;
+      margin-right: 10px;
+    }
+    .delete-btn:hover {
+      background-color:blue;
+    }
+    .cancel-btn {
+      background-color: #6c757d;
+      color: white;
+    }
+    .cancel-btn:hover {
+      background-color: #5a6268;
+    }
+    h2 {
+      text-align: center;
+      color: black;
+    }
+    @media (max-width: 768px) {
+
+
+  .container {
+    width: 90%;
+    padding: 20px;
+    margin: 40px auto;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  button {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="fiokom.html" id="nav-account">Fiókom</a>
+      <a href="#" onclick="kijelentkezes()">
+        <span style="color:red">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+  <h2>Foglalás törlése</h2>
+  <div class="container">
+    
+    <p id="info">Betöltés...</p>
+    <button class="delete-btn" id="confirm-delete">Törlés véglegesítése</button>
+    <button class="cancel-btn" id="cancel">Mégse</button>
+  </div>
+
+  <script>
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+    if (!user || user.szerepkor !== 'felhasznalo') {
+      alert("Csak bejelentkezett felhasználó törölhet foglalást.");
+      location.href = "bejelentkezes.html";
+    }
+    document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) {
+      alert("Hiányzó foglalás ID.");
+      location.href = "fiokom.html";
+    }
+
+    fetch(`Foglalasaim_listazasa.php?felhasznalo_id=${user.id}`)
+      .then(r => r.json())
+      .then(json => {
+        const fog = json.data.find(f => f.id == id);
+        if (!fog) throw new Error("Érvénytelen foglalás ID.");
+        document.getElementById('info').textContent =
+          `Biztosan törölni szeretné a következő foglalást? ` +
+          `Dátum: ${fog.datum}, Idő: ${fog.ido}`;
+      })
+      .catch(err => {
+        alert(err.message);
+        location.href = "fiokom.html";
+      });
+
+    document.getElementById('confirm-delete').addEventListener('click', () => {
+      fetch(`Foglalasok_torlese.php?id=${id}`)
+        .then(r => r.json())
+        .then(res => {
+          if (res.status) {
+            alert("Foglalás törölve.");
+            location.href = "fiokom.html";
+          } else {
+            alert("Hiba: " + (res.error || "Ismeretlen hiba"));
+          }
+        })
+        .catch(err => {
+          alert("Hiba a törlés során.");
+          console.error(err);
+        });
+    });
+
+    document.getElementById('cancel').addEventListener('click', () => {
+      location.href = "fiokom.html";
+    });
+
+    function kijelentkezes() {
+      sessionStorage.removeItem('felhasznalo');
+      location.href = "index.html";
+    }
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="menu.css">
+  
+  <title>Időpontok törlése</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+   
+    .container {
+      max-width: 400px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .container button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .container button:hover {
+      background-color: #0056b3;
+    }
+    h2 {
+      text-align: center;
+      color: black;
+    }
+    
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 768px) {
+  
+
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  input, button {
+    font-size: 15px;
+  }
+
+  button {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
+
+  button {
+    padding: 9px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+<h2 >Időpont törlése</h2>
+
+  <div class="container">
+    
+    <input type="number" id="torles-id" placeholder="Időpontok ID" required />
+    <button id="btn-delete">Törlés</button>
+  </div>
+
+  <script>
+   
+   document.getElementById('btn-delete').addEventListener('click', () => {
+      const id = document.getElementById('torles-id').value.trim();
+      if (!id) {
+        alert("Kérem, adja meg a törlendő ID-t.");
+        return;
+      }
+      if (!confirm(`Biztosan törölni szeretné a(z) ${id} ID-jű szolgáltatót?`)) {
+        return;
+      }
+      fetch(`Idopontok_torlese.php?id=${id}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status) {
+          alert("Törlés sikeres.");
+          window.location.href = "idopontok.html";
+        } else {
+          alert("Hiba: " + (data.error || "Ismeretlen hiba"));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Hiba történt a törlés során.");
+      });
+    });
+  </script>
+  <script>
+  function kijelentkezes() {
+    sessionStorage.removeItem('felhasznalo');
+    window.location.href = "index.html"; 
+  }
+</script>
+ <script>
+    
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+
+    
+    if (user && user.nev) {
+      
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+
+      document.getElementById('nav-login').classList.add('hidden');
+
+      
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+
+  </script>
+
+  <script>
+    function kijelentkezes() {
+     
+      sessionStorage.removeItem('felhasznalo');
+      
+      window.location.href = "index.html";
+    }
+  </script>
+  
+</body>
+</html>

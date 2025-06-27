@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="menu.css">
+  
+  <title>Értékelés törlése</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .container input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .container button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      color: white;
+      background-color: blue;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .container button:hover {
+      background-color: blue;
+    }
+    h2 {
+      text-align: center;
+      color: #007BFF;
+    }
+    .result {
+      margin-top: 18px;
+      font-size: 1.06em;
+      padding: 13px;
+      border-radius: 5px;
+      min-height: 26px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .success {
+      color: #18823a;
+      background: #e9faed;
+      border: 1px solid #28a745;
+    }
+    .error {
+      color: #b1001c;
+      background: #fff0f3;
+      border: 1px solid #e30035;
+    }
+    .color {
+      color: red;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 768px) {
+ 
+
+  .container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .container input,
+  .container button {
+    font-size: 15px;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .container input,
+  .container button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+
+
+  h2 {
+    font-size: 20px;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">
+      Időpontfoglaló <span id="felhasznalo-nev"></span>
+    </a>
+    <nav>
+      <a href="szolgaltatok.html">Szolgáltatók</a>
+      <a href="idopontok.html">Időpontok</a>
+      <a href="ertekelesek.html">Értékelések</a>
+      <a href="bejelentkezes.html" id="nav-login"><b>Bejelentkezés</b></a>
+      <a href="fiokom.html" id="nav-account" class="hidden">Fiókom</a>
+      <a href="#" id="nav-logout" onclick="kijelentkezes()" class="hidden">
+        <span class="color">Kijelentkezés</span>
+      </a>
+    </nav>
+  </header>
+
+  <h2>Értékelés törlése</h2>
+
+  <div class="container">
+    <input type="number" id="torles-id" placeholder="Értékelés ID" required />
+    <button id="btn-delete">Törlés</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const idFromUrl = urlParams.get('id');
+    if (idFromUrl) {
+      document.getElementById('torles-id').value = idFromUrl;
+    }
+
+    document.getElementById('btn-delete').addEventListener('click', () => {
+      const id = document.getElementById('torles-id').value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = '';
+      resultDiv.className = 'result';
+      if (!id) {
+        resultDiv.textContent = "Kérem, adja meg a törlendő értékelés ID-t.";
+        resultDiv.classList.add('error');
+        return;
+      }
+      if (!confirm(`Biztosan törölni szeretné a(z) ${id} ID-jű értékelést?`)) {
+        return;
+      }
+      fetch(`Ertekelesek_torlese.php?id=${id}`, {
+        method: 'POST' 
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'siker' || data.success) {
+          setTimeout(() => { window.location.href = "ertekelesek.html"; }, 1000);
+        } else {
+          resultDiv.textContent = data.error || "Ismeretlen hiba történt.";
+          resultDiv.className = 'result error';
+        }
+      })
+      .catch(err => {
+        resultDiv.textContent = "Hálózati vagy szerver hiba!";
+        resultDiv.className = 'result error';
+      });
+    });
+
+    
+    function kijelentkezes() {
+      sessionStorage.removeItem('felhasznalo');
+      window.location.href = "index.html";
+    }
+    const user = JSON.parse(sessionStorage.getItem('felhasznalo'));
+    if (user && user.nev) {
+      document.getElementById('felhasznalo-nev').textContent = ` - ${user.nev}`;
+      document.getElementById('nav-login').classList.add('hidden');
+      document.getElementById('nav-account').classList.remove('hidden');
+      document.getElementById('nav-logout').classList.remove('hidden');
+    }
+  </script>
+  
+</body>
+</html>
