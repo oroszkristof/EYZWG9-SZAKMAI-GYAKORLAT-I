@@ -179,7 +179,7 @@
       document.getElementById('table-header-row').appendChild(th);
     }
 
-    fetch("idopontok_listazasa.php")
+    fetch("Idopontok_listazasa.php")
       .then(res => res.json())
       .then(data => {
         if (data.status !== 'siker') {
