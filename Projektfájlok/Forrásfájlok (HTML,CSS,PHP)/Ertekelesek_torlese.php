@@ -5,14 +5,14 @@ session_start();
 header('Content-Type: application/json');
 
 
-// Metódus ellenőrzése (POST-ot várunk, NEM DELETE-et!)
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Csak POST metódussal érhető el ez a végpont.']);
     exit;
 }
 
-// ID ellenőrzés
+
 if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
     http_response_code(400);
     echo json_encode(['error' => 'Hiányzó vagy érvénytelen értékelés ID']);
